@@ -345,3 +345,45 @@
       flex:1; height:1px; 
       background:rgba(255,255,255,.08); 
     }
+
+    /* Auth section part3 */
+    #page-loader {
+      position: fixed; inset: 0; z-index: 9999;
+      background: #080c14;
+      display: flex; align-items: center; justify-content: center;
+      transition: opacity .4s ease;
+    }
+    #page-loader.hide { opacity: 0; pointer-events: none; }
+    .loader-ring {
+      width: 44px; height: 44px; border-radius: 50%;
+      border: 3px solid rgba(249,115,22,.15);
+      border-top-color: #f97316;
+      animation: spin .7s linear infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+ 
+    .auth-card { animation: fadeUp .5s ease both; }
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to   { opacity: 1; transform: none; }
+    }
+ 
+    #nprogress-bar {
+      position: fixed; top: 0; left: 0; height: 3px;
+      background: #f97316; z-index: 10000;
+      width: 0; transition: width .3s ease;
+      box-shadow: 0 0 8px rgba(249,115,22,.6);
+    }
+ 
+    .auth-btn.loading {
+      opacity: .7; pointer-events: none;
+    }
+    .auth-btn.loading::after {
+      content: '';
+      display: inline-block; width: 14px; height: 14px;
+      border: 2px solid rgba(255,255,255,.3);
+      border-top-color: #fff;
+      border-radius: 50%;
+      animation: spin .6s linear infinite;
+      margin-left: 8px;
+    }
