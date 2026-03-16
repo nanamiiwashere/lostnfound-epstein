@@ -64,20 +64,25 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST'){
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Sign Up - LostnFound</title>
+  <title>Register — LostnFound</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"/>
-  <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
   <link href="https://fonts.googleapis.com/css2?family=Clash+Display:wght@400;600;700&family=Cabinet+Grotesk:wght@300;400;500;700&display=swap" rel="stylesheet"/>
-  <link rel="stylesheet" href="./style.css">
+  <link rel="stylesheet" href="./style.css"/>
+  <style>
+   
+  </style>
 </head>
 <body>
+ 
+<div id="page-loader"><div class="loader-ring"></div></div>
+<div id="nprogress-bar"></div>
  
 <div class="login-wrapper">
 <div class="login-card">
  
   <div class="text-center mb-4">
-    <a href="../index.php" class="text-decoration-none">
+    <a href="../index.php" class="text-decoration-none" onclick="startProgress()">
       <div style="font-family:'Clash Display',sans-serif;font-weight:700;font-size:2rem;color:#fff;letter-spacing:-.02em;">
         Lostn<span style="color:#f97316;">Found</span>
       </div>
@@ -85,21 +90,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST'){
     <p style="color:#64748b;font-size:.88rem;margin-top:6px;">Create your free account.</p>
   </div>
  
-  <?php if ($error):   ?><div class="auth-alert-err mb-3"><i class="fas fa-exclamation-circle"></i><span><?= $error ?></span></div><?php endif; ?>
-  <?php if ($success): ?><div class="auth-alert-ok  mb-3"><i class="fas fa-check-circle"></i><span><?= $success ?></span></div><?php endif; ?>
+  <?php if ($error):   ?><div class="auth-alert-err mb-3"><i class="fas fa-exclamation-circle me-2"></i><?= $error ?></div><?php endif; ?>
+  <?php if ($success): ?><div class="auth-alert-ok mb-3"><i class="fas fa-check-circle me-2"></i><?= $success ?></div><?php endif; ?>
  
-  <a href="<?= $googleUrl ?>" class="oauth-btn mb-3">
-    <img src="https://developers.google.com/identity/images/g-logo.png" width="18" alt=""/>
+  <a href="<?= $googleUrl ?>" class="oauth-btn mb-3" onclick="startProgress()">
+    <i class="fa-brands fa-google" style="color:#4285F4;font-size:1.1rem;"></i>
     Sign up with Google
   </a>
-  <a href="<?= $discordUrl ?>" class="oauth-btn discord mb-4">
+  <a href="<?= $discordUrl ?>" class="oauth-btn discord mb-4" onclick="startProgress()">
     <i class="fab fa-discord" style="color:#5865f2;font-size:1.1rem;"></i>
     Sign up with Discord
   </a>
  
   <div class="divider mb-4">or register with email</div>
  
-  <form method="POST" action="">
+  <form method="POST" action="" onsubmit="submitLoading(this)">
     <div class="mb-3">
       <label class="form-lbl">Full Name</label>
       <input type="text" name="nama" class="form-inp" placeholder="John Doe"
@@ -121,14 +126,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST'){
       <input type="password" name="confirm" id="confirmInput" class="form-inp" placeholder="Re-enter password" required/>
       <div id="matchHint" style="font-size:.72rem;margin-top:4px;min-height:16px;"></div>
     </div>
-    <button type="submit" class="btn-login mb-3">
+    <button type="submit" class="btn-login mb-3" id="submitBtn">
       <i class="fas fa-user-plus me-2"></i>Create Account
     </button>
   </form>
  
   <p class="text-center mb-0" style="color:#64748b;font-size:.85rem;">
     Already have an account?
-    <a href="login.php" style="color:#f97316;font-weight:700;text-decoration:none;">Sign in</a>
+    <a href="login.php" style="color:#f97316;font-weight:700;text-decoration:none;" onclick="startProgress()">Sign in</a>
   </p>
  
 </div>
@@ -136,32 +141,45 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST'){
  
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 <script>
+window.addEventListener('load', () => {
+  const loader = document.getElementById('page-loader');
+  loader.classList.add('hide');
+  setTimeout(() => loader.remove(), 400);
+});
+ 
+function startProgress() {
+  const bar = document.getElementById('nprogress-bar');
+  bar.style.width = '0'; bar.style.opacity = '1';
+  let w = 0;
+  const iv = setInterval(() => { w = Math.min(w + Math.random() * 15, 85); bar.style.width = w + '%'; }, 150);
+  window.addEventListener('beforeunload', () => { clearInterval(iv); bar.style.width = '100%'; setTimeout(() => bar.style.opacity = '0', 200); });
+}
+ 
+function submitLoading(form) {
+  const btn = form.querySelector('#submitBtn');
+  btn.classList.add('loading');
+  btn.innerHTML = '<i class="fas fa-user-plus me-2"></i>Creating account...';
+}
+ 
 const pwInput = document.getElementById('pwInput');
 const pwFill  = document.getElementById('pwFill');
 const pwLabel = document.getElementById('pwLabel');
 const colors  = ['#ef4444','#ef4444','#f97316','#eab308','#22c55e'];
 const labels  = ['','Weak','Fair','Good','Strong'];
- 
 pwInput.addEventListener('input', function() {
   const v = this.value; let s = 0;
-  if (v.length >= 8)           s++;
-  if (/[A-Z]/.test(v))         s++;
-  if (/[0-9]/.test(v))         s++;
-  if (/[^A-Za-z0-9]/.test(v))  s++;
+  if (v.length >= 8) s++; if (/[A-Z]/.test(v)) s++;
+  if (/[0-9]/.test(v)) s++; if (/[^A-Za-z0-9]/.test(v)) s++;
   pwFill.style.width = (s*25)+'%'; pwFill.style.background = colors[s];
   pwLabel.textContent = labels[s]; pwLabel.style.color = colors[s];
   checkMatch();
 });
- 
 const confirmInput = document.getElementById('confirmInput');
 const matchHint    = document.getElementById('matchHint');
 function checkMatch() {
-  if (!confirmInput.value) { matchHint.textContent=''; return; }
-  if (pwInput.value === confirmInput.value) {
-    matchHint.textContent='✓ Passwords match'; matchHint.style.color='#22c55e';
-  } else {
-    matchHint.textContent='✗ Do not match'; matchHint.style.color='#ef4444';
-  }
+  if (!confirmInput.value) { matchHint.textContent = ''; return; }
+  if (pwInput.value === confirmInput.value) { matchHint.textContent = '✓ Passwords match'; matchHint.style.color = '#22c55e'; }
+  else { matchHint.textContent = '✗ Do not match'; matchHint.style.color = '#ef4444'; }
 }
 confirmInput.addEventListener('input', checkMatch);
 </script>

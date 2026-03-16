@@ -30,18 +30,20 @@ $urlError = $_GET['error'] ?? '';
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Login - LostnFound</title>
+  <title>Login — LostnFound</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"/>
-  <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
   <link href="https://fonts.googleapis.com/css2?family=Clash+Display:wght@400;600;700&family=Cabinet+Grotesk:wght@300;400;500;700&display=swap" rel="stylesheet"/>
-  <link rel="stylesheet" href="./style.css">
+  <link rel="stylesheet" href="./style.css"/>
 </head>
 <body class="auth-body">
  
+<div id="page-loader"><div class="loader-ring"></div></div>
+ 
+<div id="nprogress-bar" id="nbar"></div>
+ 
 <div class="auth-card">
  
-  <!-- Logo -->
   <div class="text-center mb-4">
     <a href="../index.php" class="text-decoration-none">
       <div style="font-family:'Clash Display',sans-serif;font-weight:700;font-size:2rem;color:#fff;">
@@ -51,7 +53,6 @@ $urlError = $_GET['error'] ?? '';
     <p style="color:var(--muted);font-size:.88rem;margin-top:6px;">Welcome back! Sign in to continue.</p>
   </div>
  
-  <!-- Errors -->
   <?php if (!empty($error)): ?>
     <div class="auth-alert-err mb-3"><i class="fas fa-exclamation-circle me-2"></i><?= htmlspecialchars($error) ?></div>
   <?php endif; ?>
@@ -60,19 +61,18 @@ $urlError = $_GET['error'] ?? '';
   <?php endif; ?>
  
   <!-- OAuth -->
-  <a href="<?= $googleUrl ?>" class="oauth-btn mb-3">
-    <img src="https://developers.google.com/identity/images/g-logo.png" width="18" alt=""/>
+  <a href="<?= $googleUrl ?>" class="oauth-btn mb-3" onclick="startProgress()">
+    <i class="fa-brands fa-google" style="color:#4285F4;font-size:1.1rem;"></i>
     Continue with Google
   </a>
-  <a href="<?= $discordUrl ?>" class="oauth-btn discord mb-4">
+  <a href="<?= $discordUrl ?>" class="oauth-btn discord mb-4" onclick="startProgress()">
     <i class="fab fa-discord" style="color:#5865f2;font-size:1.1rem;"></i>
     Continue with Discord
   </a>
  
   <div class="auth-divider mb-4">or sign in with email</div>
  
-  <!-- Form -->
-  <form method="POST" action="">
+  <form method="POST" action="" onsubmit="submitLoading(this)">
     <div class="mb-3">
       <label class="auth-label">Email</label>
       <input type="email" name="email" class="auth-input"
@@ -91,20 +91,51 @@ $urlError = $_GET['error'] ?? '';
         </button>
       </div>
     </div>
-    <button type="submit" class="auth-btn mb-3">
+    <button type="submit" class="auth-btn mb-3" id="submitBtn">
       <i class="fas fa-sign-in-alt me-2"></i>Sign In
     </button>
   </form>
  
   <p class="text-center mb-0" style="color:var(--muted);font-size:.85rem;">
     No account?
-    <a href="register.php" style="color:var(--accent);font-weight:700;text-decoration:none;">Register free</a>
+    <a href="register.php" style="color:var(--accent);font-weight:700;text-decoration:none;" onclick="startProgress()">Register free</a>
   </p>
  
-</div><!-- /auth-card -->
+</div>
  
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 <script>
+// Hide loader when page loaded
+window.addEventListener('load', () => {
+  const loader = document.getElementById('page-loader');
+  loader.classList.add('hide');
+  setTimeout(() => loader.remove(), 400);
+});
+ 
+// NProgress bar for link navigation
+function startProgress() {
+  const bar = document.getElementById('nprogress-bar');
+  bar.style.width = '0';
+  bar.style.opacity = '1';
+  let w = 0;
+  const iv = setInterval(() => {
+    w = Math.min(w + Math.random() * 15, 85);
+    bar.style.width = w + '%';
+  }, 150);
+  window.addEventListener('beforeunload', () => {
+    clearInterval(iv);
+    bar.style.width = '100%';
+    setTimeout(() => bar.style.opacity = '0', 200);
+  });
+}
+ 
+function submitLoading(form) {
+  const btn = form.querySelector('#submitBtn');
+  btn.classList.add('loading');
+  btn.innerHTML = '<i class="fas fa-sign-in-alt me-2"></i>Signing in...';
+}
+ 
+// Show/hide password
 function togglePw() {
   const f = document.getElementById('pwField');
   const i = document.getElementById('eyeIcon');

@@ -21,7 +21,7 @@ $resolved   = $pdo->query("SELECT COUNT(*) FROM barang_temuan WHERE status='reso
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>LostnFound - Commuterlink Nusantara</title>
+  <title>LostnFound — Commuterlink Nusantara</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"/>
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
@@ -52,7 +52,7 @@ $resolved   = $pdo->query("SELECT COUNT(*) FROM barang_temuan WHERE status='reso
       <?php if (isLoggedIn()):
             $u = currentUser(); ?>
  
-        <a href="post-item.php" class="btn-nav-accent"><i class="fas fa-plus me-1"></i>Post Item</a>
+        <a href="/dashboard/buat-laporan.php" class="btn-nav-accent"><i class="fas fa-plus me-1"></i>Post Item</a>
  
         <!-- Avatar dropdown -->
         <div class="relative" id="avatarWrap">
@@ -106,12 +106,12 @@ $resolved   = $pdo->query("SELECT COUNT(*) FROM barang_temuan WHERE status='reso
     </ul>
     <div class="flex flex-col gap-2 pt-2" style="border-top:1px solid rgba(255,255,255,.07);">
       <?php if (isLoggedIn()): ?>
-        <a href="post-item.php"         class="btn-nav-accent text-center">Post Item</a>
+        <a href="/dashboard/buat-laporan.php"         class="btn-nav-accent text-center">Post Item</a>
         <a href="dashboard/index.php"   class="btn-nav-ghost text-center">Dashboard</a>
         <a href="Auth/logout.php"       class="btn-nav-ghost text-center" style="color:#f87171;border-color:rgba(239,68,68,.3);">Logout</a>
       <?php else: ?>
-        <a href="Auth/login.php"    class="btn-nav-ghost text-center">Login</a>
-        <a href="Auth/register.php" class="btn-nav-accent text-center">Register</a>
+        <a href="./login.php"    class="btn-nav-ghost text-center">Login</a>
+        <a href="./register.php" class="btn-nav-accent text-center">Register</a>
       <?php endif; ?>
     </div>
   </div>
@@ -150,12 +150,12 @@ $resolved   = $pdo->query("SELECT COUNT(*) FROM barang_temuan WHERE status='reso
         <div class="d-flex flex-wrap gap-3">
           <?php if (isLoggedIn()): ?>
             <!-- Logged in: can post -->
-            <a href="post-item.php"         class="btn-primary-custom"><i class="fas fa-plus-circle"></i> Report Item</a>
+            <a href="/dashboard/buat-laporan.php"         class="btn-primary-custom"><i class="fas fa-plus-circle"></i> Report Item</a>
             <a href="items.php?type=found"  class="btn-ghost-custom"><i class="fas fa-hand-holding"></i> Found Items</a>
           <?php else: ?>
             <!-- Guest: explore only, nudge to register -->
             <a href="items.php"             class="btn-primary-custom"><i class="fas fa-search"></i> Explore Items</a>
-            <a href="auth/register.php"     class="btn-ghost-custom"><i class="fas fa-user-plus"></i> Register to Post</a>
+            <a href="/register.php"     class="btn-ghost-custom"><i class="fas fa-user-plus"></i> Register to Post</a>
           <?php endif; ?>
         </div>
       </div>
@@ -280,9 +280,9 @@ $resolved   = $pdo->query("SELECT COUNT(*) FROM barang_temuan WHERE status='reso
 
             <?php else: ?>
               <div class="guest-gate">
-                <a href="auth/login.php"    onclick="event.stopPropagation()">Login</a>
+                <a href="./login.php"    onclick="event.stopPropagation()">Login</a>
                 or
-                <a href="auth/register.php" onclick="event.stopPropagation()">Register</a>
+                <a href="./register.php" onclick="event.stopPropagation()">Register</a>
                 to claim or contact staff
               </div>
             <?php endif; ?>
@@ -336,13 +336,13 @@ $resolved   = $pdo->query("SELECT COUNT(*) FROM barang_temuan WHERE status='reso
   <div class="container">
     <div class="cta-banner">
       <div class="mb-3" style="font-size:2.5rem;"><i class="fa-solid fa-magnifying-glass"></i></div>
-      <h2 class="section-title mb-3">Ready to report or claim an item?</h2>
+      <h2 class="section-title mb-3">Siap untuk lapor atau klaim barang?</h2>
       <p style="color:var(--muted);max-width:480px;margin:0 auto 1.5rem;">
-        Create a free account to post lost items, claim found ones, and contact our staff directly.
+        Buat akun gratis untuk lapor barang hilang, klaim barang temuan, dan langsung hubungi tim kami.
       </p>
       <div class="d-flex justify-content-center gap-3 flex-wrap">
-        <a href="auth/register.php" class="btn-primary-custom"><i class="fas fa-user-plus"></i> Create Free Account</a>
-        <a href="auth/login.php"    class="btn-ghost-custom"><i class="fas fa-sign-in-alt"></i> Already have one? Login</a>
+        <a href="./register.php" class="btn-primary-custom"><i class="fas fa-user-plus"></i> Buat akun</a>
+        <a href="./login.php"    class="btn-ghost-custom"><i class="fas fa-sign-in-alt"></i> Sudah ada akun? Login</a>
       </div>
     </div>
   </div>
@@ -393,11 +393,11 @@ $resolved   = $pdo->query("SELECT COUNT(*) FROM barang_temuan WHERE status='reso
         <div class="d-flex flex-column gap-2">
           <?php if (isLoggedIn()): ?>
             <a href="dashboard/index.php" style="color:var(--muted);font-size:.85rem;text-decoration:none;transition:color .2s;" onmouseover="this.style.color='#f97316'" onmouseout="this.style.color='#64748b'">Dashboard</a>
-            <a href="post-item.php"       style="color:var(--muted);font-size:.85rem;text-decoration:none;transition:color .2s;" onmouseover="this.style.color='#f97316'" onmouseout="this.style.color='#64748b'">Post Item</a>
+            <a href="/dashboard/buat-laporan.php"       style="color:var(--muted);font-size:.85rem;text-decoration:none;transition:color .2s;" onmouseover="this.style.color='#f97316'" onmouseout="this.style.color='#64748b'">Post Item</a>
             <a href="Auth/logout.php"     style="color:#f87171;font-size:.85rem;text-decoration:none;">Logout</a>
           <?php else: ?>
-            <a href="Auth/login.php"    style="color:var(--muted);font-size:.85rem;text-decoration:none;transition:color .2s;" onmouseover="this.style.color='#f97316'" onmouseout="this.style.color='#64748b'">Login</a>
-            <a href="Auth/register.php" style="color:var(--muted);font-size:.85rem;text-decoration:none;transition:color .2s;" onmouseover="this.style.color='#f97316'" onmouseout="this.style.color='#64748b'">Register</a>
+            <a href="./login.php"    style="color:var(--muted);font-size:.85rem;text-decoration:none;transition:color .2s;" onmouseover="this.style.color='#f97316'" onmouseout="this.style.color='#64748b'">Login</a>
+            <a href="./register.php" style="color:var(--muted);font-size:.85rem;text-decoration:none;transition:color .2s;" onmouseover="this.style.color='#f97316'" onmouseout="this.style.color='#64748b'">Register</a>
           <?php endif; ?>
         </div>
       </div>
