@@ -52,7 +52,7 @@ $resolved   = $pdo->query("SELECT COUNT(*) FROM barang_temuan WHERE status='reso
       <?php if (isLoggedIn()):
             $u = currentUser(); ?>
  
-        <a href="/dashboard/buat-laporan.php" class="btn-nav-accent"><i class="fas fa-plus me-1"></i>Post Item</a>
+        <a href="./dashboard/buat-laporan.php" class="btn-nav-accent"><i class="fas fa-plus me-1"></i>Post Item</a>
  
         <!-- Avatar dropdown -->
         <div class="relative" id="avatarWrap">
@@ -76,9 +76,9 @@ $resolved   = $pdo->query("SELECT COUNT(*) FROM barang_temuan WHERE status='reso
               </div>
             </div>
             <hr style="border-color:rgba(255,255,255,.08);margin:4px 0;"/>
-            <a href="dashboard/index.php"   class="dropdown-dark-item"><i class="fas fa-th-large mr-2"></i>Dashboard</a>
-            <a href="dashboard/my-items.php"class="dropdown-dark-item"><i class="fas fa-list mr-2"></i>My Items</a>
-            <a href="dashboard/messages.php"class="dropdown-dark-item"><i class="fas fa-envelope mr-2"></i>Messages</a>
+            <a href="./dashboard/index.php"   class="dropdown-dark-item"><i class="fas fa-th-large mr-2"></i>Dashboard</a>
+            <a href="./dashboard/my-items.php"class="dropdown-dark-item"><i class="fas fa-list mr-2"></i>My Items</a>
+            <a href="./dashboard/messages.php"class="dropdown-dark-item"><i class="fas fa-envelope mr-2"></i>Messages</a>
             <hr style="border-color:rgba(255,255,255,.08);margin:4px 0;"/>
             <a href="Auth/logout.php" class="dropdown-dark-item" style="color:#f87171;"><i class="fas fa-sign-out-alt mr-2"></i>Logout</a>
           </div>
@@ -106,8 +106,8 @@ $resolved   = $pdo->query("SELECT COUNT(*) FROM barang_temuan WHERE status='reso
     </ul>
     <div class="flex flex-col gap-2 pt-2" style="border-top:1px solid rgba(255,255,255,.07);">
       <?php if (isLoggedIn()): ?>
-        <a href="/dashboard/buat-laporan.php"         class="btn-nav-accent text-center">Post Item</a>
-        <a href="dashboard/index.php"   class="btn-nav-ghost text-center">Dashboard</a>
+        <a href="./dashboard/buat-laporan.php"         class="btn-nav-accent text-center">Post Item</a>
+        <a href="./dashboard/index.php"   class="btn-nav-ghost text-center">Dashboard</a>
         <a href="Auth/logout.php"       class="btn-nav-ghost text-center" style="color:#f87171;border-color:rgba(239,68,68,.3);">Logout</a>
       <?php else: ?>
         <a href="./login.php"    class="btn-nav-ghost text-center">Login</a>
@@ -150,7 +150,7 @@ $resolved   = $pdo->query("SELECT COUNT(*) FROM barang_temuan WHERE status='reso
         <div class="d-flex flex-wrap gap-3">
           <?php if (isLoggedIn()): ?>
             <!-- Logged in: can post -->
-            <a href="/dashboard/buat-laporan.php"         class="btn-primary-custom"><i class="fas fa-plus-circle"></i> Report Item</a>
+            <a href="./dashboard/buat-laporan.php"         class="btn-primary-custom"><i class="fas fa-plus-circle"></i> Report Item</a>
             <a href="items.php?type=found"  class="btn-ghost-custom"><i class="fas fa-hand-holding"></i> Found Items</a>
           <?php else: ?>
             <!-- Guest: explore only, nudge to register -->
@@ -393,7 +393,7 @@ $resolved   = $pdo->query("SELECT COUNT(*) FROM barang_temuan WHERE status='reso
         <div class="d-flex flex-column gap-2">
           <?php if (isLoggedIn()): ?>
             <a href="dashboard/index.php" style="color:var(--muted);font-size:.85rem;text-decoration:none;transition:color .2s;" onmouseover="this.style.color='#f97316'" onmouseout="this.style.color='#64748b'">Dashboard</a>
-            <a href="/dashboard/buat-laporan.php"       style="color:var(--muted);font-size:.85rem;text-decoration:none;transition:color .2s;" onmouseover="this.style.color='#f97316'" onmouseout="this.style.color='#64748b'">Post Item</a>
+            <a href="./dashboard/buat-laporan.php"       style="color:var(--muted);font-size:.85rem;text-decoration:none;transition:color .2s;" onmouseover="this.style.color='#f97316'" onmouseout="this.style.color='#64748b'">Post Item</a>
             <a href="Auth/logout.php"     style="color:#f87171;font-size:.85rem;text-decoration:none;">Logout</a>
           <?php else: ?>
             <a href="./login.php"    style="color:var(--muted);font-size:.85rem;text-decoration:none;transition:color .2s;" onmouseover="this.style.color='#f97316'" onmouseout="this.style.color='#64748b'">Login</a>
