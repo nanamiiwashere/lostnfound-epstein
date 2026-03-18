@@ -34,8 +34,13 @@ $isStaff = ($u['role'] ?? '') === 'staff';
  
   <div class="sidebar-user">
     <div style="display:flex;align-items:center;gap:10px;">
-      <?php if (!empty($u['avatar'])): ?>
-        <img src="<?= htmlspecialchars($u['avatar']) ?>" class="user-avatar-sm" alt=""/>
+      <?php
+        $av = $u['avatar'] ?? '';
+        if ($av):
+          // OAuth = full URL, local = raw path dari DB misal "avatars/avatar_5_xxx.jpg"
+          $avSrc = str_starts_with($av, 'http') ? $av : '../uploads/' . ltrim($av, '/');
+      ?>
+        <img src="<?= htmlspecialchars($avSrc) ?>" class="user-avatar-sm" style="width:36px;height:36px;border-radius:50%;object-fit:cover;" alt=""/>
       <?php else: ?>
         <div class="user-avatar-initial"><?= strtoupper(substr($u['name']??'U',0,1)) ?></div>
       <?php endif; ?>
@@ -52,4 +57,3 @@ $isStaff = ($u['role'] ?? '') === 'staff';
     </div>
   </div>
 </aside>
- 

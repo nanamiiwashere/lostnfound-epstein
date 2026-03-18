@@ -58,7 +58,10 @@ $resolved   = $pdo->query("SELECT COUNT(*) FROM barang_temuan WHERE status='reso
         <div class="relative" id="avatarWrap">
           <button onclick="toggleDropdown()" class="btn-avatar">
             <?php if (!empty($u['avatar'])): ?>
-              <img src="<?= htmlspecialchars($u['avatar']) ?>" class="avatar-img" alt=""/>
+              <?php
+                $av = $u['avatar'] ?? '';
+                $avSrc = str_starts_with($av, 'http') ? $av : 'uploads/' . $av;?>
+              <img src="<?= htmlspecialchars($avSrc) ?>" class="avatar-img" alt=""/>
             <?php else: ?>
               <div class="avatar-initial"><?= strtoupper(substr($u['name'],0,1)) ?></div>
             <?php endif; ?>
@@ -77,7 +80,7 @@ $resolved   = $pdo->query("SELECT COUNT(*) FROM barang_temuan WHERE status='reso
             </div>
             <hr style="border-color:rgba(255,255,255,.08);margin:4px 0;"/>
             <a href="./dashboard/index.php"   class="dropdown-dark-item"><i class="fas fa-th-large mr-2"></i>Dashboard</a>
-            <a href="./dashboard/my-items.php"class="dropdown-dark-item"><i class="fas fa-list mr-2"></i>My Items</a>
+            <a href="./dashboard/profil.php"class="dropdown-dark-item"><i class="fas fa-user-circle mr-2"></i>Profile</a>
             <a href="./dashboard/messages.php"class="dropdown-dark-item"><i class="fas fa-envelope mr-2"></i>Messages</a>
             <hr style="border-color:rgba(255,255,255,.08);margin:4px 0;"/>
             <a href="Auth/logout.php" class="dropdown-dark-item" style="color:#f87171;"><i class="fas fa-sign-out-alt mr-2"></i>Logout</a>
@@ -236,7 +239,7 @@ $resolved   = $pdo->query("SELECT COUNT(*) FROM barang_temuan WHERE status='reso
         <div class="item-card h-100" onclick="location.href='item-detail.php?id=<?= $item['id_barang'] ?>'">
           <div class="item-card-img-wrap">
             <?php if (!empty($item['image'])): ?>
-              <img src="./uploads/avatars/<?= htmlspecialchars($item['image']) ?>" class="item-card-img" alt=""/>
+              <img src="./uploads/<?= htmlspecialchars($item['image']) ?>" class="item-card-img" alt=""/>
             <?php else: ?>
               <div class="img-placeholder">
                 <i class="fas <?= $icon ?> fa-2x" style="color:rgba(255,255,255,.15);"></i>
