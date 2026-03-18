@@ -41,7 +41,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST'){
     if (!$error){
       $pdo -> prepare("UPDATE users SET nama=?, avatar=? WHERE id_user=?") -> execute ([$nama, $avatarName, $u['id']]);
       $_SESSION['name'] = $nama;
-      $_SESSION['avatar'] = $avatarName ? '../uploads/' . $avatarName : null;
+      $_SESSION['avatar'] = $avatarName ?: null;
       
       $success = 'Profil berhasil diupdate!';
       $user['nama'] = $nama;

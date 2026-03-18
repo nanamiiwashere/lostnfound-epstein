@@ -45,7 +45,8 @@ function loginUser(array $user): void {
     $_SESSION['name'] = $user['nama'];
     $_SESSION['role'] = $user['role'];
     $_SESSION['provider'] = $user['oauth_provider'] ?? 'email';
-    $_SESSION['avatar'] = $user['avatar'] ?? null;
+    $av = $user['avatar'] ?? null;
+    $_SESSION['avatar'] = $av && !str_starts_with($av, 'http') ? '../uploads/' . $av : $av;
     $_SESSION['logged_at'] = time();
 }
 

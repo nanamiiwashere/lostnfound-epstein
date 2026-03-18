@@ -55,7 +55,10 @@ $displayNews = empty($news) ? $demoNews : $news;
         <div class="relative" id="avatarWrap">
           <button onclick="toggleDropdown()" class="btn-avatar">
             <?php if (!empty($u['avatar'])): ?>
-              <img src="<?= htmlspecialchars($u['avatar']) ?>" class="avatar-img" alt=""/>
+              <?php
+                $av = $u['avatar'] ?? '';
+                $avSrc = str_starts_with($av, 'http') ? $av : 'uploads/' . $av;?>
+              <img src="<?= htmlspecialchars($avSrc) ?>" class="avatar-img" alt=""/>
             <?php else: ?>
               <div class="avatar-initial"><i class="fas fa-user" style="font-size:.85rem;"></i></div>
             <?php endif; ?>
