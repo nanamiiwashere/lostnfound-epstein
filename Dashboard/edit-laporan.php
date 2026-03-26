@@ -2,8 +2,6 @@
 if (session_status() === PHP_SESSION_NONE) session_start();
 require_once '../connect.php';
 require_once '../Auth/auth3thparty.php';
-require_once '../Core/supabase-handler.php';
-require_once '../Core/supabase-img.php';
 requireLogin();
 $u = currentUser();
 $activePage = 'laporan';
@@ -42,6 +40,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST'){
     } else {
         $imageName = $item['image'];
 
+
         //handle for new image upload
         if (!empty($_FILES['image']['name'])){
             $ext     = strtolower(pathinfo($_FILES['image']['name'], PATHINFO_EXTENSION));
@@ -51,18 +50,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST'){
             } elseif ($_FILES['image']['size'] > 3 * 1024 * 1024) {
                 $error = 'Ukuran foto maksimal 3MB.';
             } else {
-              $fileName = uniqid('laporan_') . '.' . $ext;
-                $supabaseUrl = uploadToSupabase(
-                  $_FILES['image']['tmp_name'], $fileName, 'uploads'
-                );
-
-                if ($supabaseUrl !== false){
-                  $imageName = $fileName;
-                } else {
-                  $error = 'Gagal upload gambar ke server!, try again';
-                }
+                $imageName  = uniqid('laporan_') . '.' . $ext;
+                $uploadDir  = '../uploads/';
+                if (!is_dir($uploadDir)) mkdir($uploadDir, 0755, true);
+                move_uploaded_file($_FILES['image']['tmp_name'], $uploadDir . $imageName);
             }
-          }
+        }
 
         if (isset($_POST['remove_image'])){
             $imageName = null;
@@ -82,7 +75,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST'){
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Edit Laporan - LostnFound</title>
+  <title>Edit Laporan — LostnFound</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"/>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
   <link href="https://fonts.googleapis.com/css2?family=Clash+Display:wght@400;600;700&family=Cabinet+Grotesk:wght@300;400;500;700&display=swap" rel="stylesheet"/>
@@ -167,7 +160,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST'){
                   <div id="existingImg" class="mb-3">
                     <div style="color:#94a3b8;font-size:.8rem;margin-bottom:8px;">Foto saat ini:</div>
                     <div class="d-flex align-items-center gap-3">
-                      <img src="<?= htmlspecialchars(supabaseImageUrl($item['image'])) ?>" style="width:80px;height:80px;object-fit:cover;border-radius:10px;"/>
+                      <img src="../uploads/<?= htmlspecialchars($item['image']) ?>" style="width:80px;height:80px;object-fit:cover;border-radius:10px;"/>
                       <button type="button" onclick="removeExisting()" class="btn-ghost-sm" style="color:#f87171;border-color:rgba(239,68,68,.2);">
                         <i class="fas fa-trash"></i>Hapus Foto
                       </button>
